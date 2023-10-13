@@ -6,6 +6,6 @@ router.get('/register', (req, res) => {
 
 router.get('/login', (req, res) => {
     res.render('userTemps/login')
-})
+});
 
 module.exports = router
