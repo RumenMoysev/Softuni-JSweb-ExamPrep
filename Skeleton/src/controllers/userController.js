@@ -16,7 +16,7 @@ router.post('/register',async (req, res) => {
     const repeatPassword = req.body.rePassword
 
     try {
-        await userManager.validateAndRegister(userData, repeatPassword)
+        const token = await userManager.validateAndRegister(userData, repeatPassword)
         res.redirect('/')
     } catch(err) {
         console.log(err.message)

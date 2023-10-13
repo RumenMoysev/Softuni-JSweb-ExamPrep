@@ -22,8 +22,10 @@ exports.validateAndRegister = async (userData, repeatPassword) => {
     }
 
     userData.password = await bcrypt.hash(userData.password, 10)
-    return User.create(userData)
-}    await User.create(userData)
+    await User.create(userData)
+    return await createJWTtoken(userData, SECRET)
+};
+
 exports.validateAndLogin = async (userData) => {
     if (userData.email.length < emailLength) {
         throw new Error(`Email should be at least ${emailLength} characters long`)
