@@ -1,12 +1,13 @@
 const User = require('../models/User.js')
 const bcrypt = require('bcrypt')
+const jwt = require('../lib/jwtPromise.js')
+const SECRET = require('../configs/config.js')
+
+const usernameLength = 5
+const emailLength = 10
+const passwordLength = 4
 
 exports.validateAndRegister = async (userData, repeatPassword) => {
-    const usernameLength = 5
-    const emailLength = 10
-    const passwordLength = 4
-
-
     if (userData.username.length < usernameLength) {
         throw new Error(`Username should be at least ${usernameLength} characters long`)
     }
@@ -22,4 +23,29 @@ exports.validateAndRegister = async (userData, repeatPassword) => {
 
     userData.password = await bcrypt.hash(userData.password, 10)
     return User.create(userData)
+}    await User.create(userData)
+exports.validateAndLogin = async (userData) => {
+    if (userData.email.length < emailLength) {
+        throw new Error(`Email should be at least ${emailLength} characters long`)
+    }
+    if (userData.password.length < passwordLength) {
+        throw new Error(`Password should be at least ${passwordLength} characters long`)
+    }
+
+    const user = await User.findOne({email: userData.email}).lean()
+
+    if(user) {
+        const isValid = await bcrypt.compare(userData.password, user.password)
+
+        if(!isValid) {
+            throw new Error('Email or password do not match!')
+        }
+
+        const token = await createJWTtoken(user, SECRET)
+        return token
+    } else {
+        throw new Error('Email or password do not match!')
+    }
 }
+
+function createJWTtoken(data, secret) {return jwt.sign(data, secret)}

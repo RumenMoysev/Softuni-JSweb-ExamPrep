@@ -28,4 +28,19 @@ router.get('/login', (req, res) => {
     res.render('userTemps/login')
 });
 
+router.post('/login', async (req, res) => {
+    const userData = {
+        email: req.body.email,
+        password: req.body.password
+    }
+
+    try {
+        const token = await userManager.validateAndLogin(userData)
+        res.cookie('auth', token)
+        res.redirect('/')
+    } catch (err) {
+        console.log(err)
+    }
+});
+
 module.exports = router
