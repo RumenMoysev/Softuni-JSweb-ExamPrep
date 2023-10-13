@@ -5,5 +5,8 @@ const usersController = require('./controllers/userController.js')
 
 router.use(homeController)
 router.use('/users', usersController)
+router.use('*', (req, res) => {
+    res.redirect('404')
+})
 
 module.exports = router
