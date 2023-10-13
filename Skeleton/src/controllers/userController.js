@@ -17,6 +17,7 @@ router.post('/register',async (req, res) => {
 
     try {
         const token = await userManager.validateAndRegister(userData, repeatPassword)
+        res.cookie('auth', token)
         res.redirect('/')
     } catch(err) {
         console.log(err.message)
