@@ -1,0 +1,28 @@
+<main id="edit">
+    {{>error}}
+    <section id="edit-container">
+        <div class="edit-container-info">
+            <h1>Edit Game Code Offer</h1>
+            <form method="POST">
+                <label>Platform:</label>
+                <select id="platform" name="platform">
+                    <option value="">-------</option>
+                    {{#each options}}
+                    <option value="{{this.value}}" {{#if this.selected}} selected="{{this.selected}}" {{/if}}>{{this.value}}</option>
+                    {{/each}}
+                </select>
+                <label>Name:</label>
+                <input type="text" id="name" name="name" value="{{gameData.name}}">
+                <label>Image:</label>
+                <input type="text" id="image" name="image" placeholder="{{gameData.image}}" value="{{gameData.image}}">
+                <label>Price:</label>
+                <input type="number" id="price" name="price" value="{{gameData.price}}">
+                <label>Genre:</label>
+                <input type="text" id="genre" name="genre" value="{{gameData.genre}}">
+                <label>Description:</label>
+                <textarea id="description" name="description">{{gameData.description}}</textarea>
+                <input type="submit" id="btn" value="EDIT"></input>
+            </form>
+        </div>
+    </section>
+</main>

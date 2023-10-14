@@ -39,3 +39,14 @@ exports.validateAndCreate = (data) => {
 
 exports.getGamesLean = () => Game.find().lean()
 exports.findGameByIdLean = (id) => Game.findById(id).lean()
+
+exports.findValidateAndUpdate = async (gameId, newGameData) => {
+    try {
+        validate(newGameData)
+        return Game.findByIdAndUpdate(gameId, newGameData)
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
+
+exports.deleteGame = (gameId) => Game.findByIdAndDelete(gameId) 
