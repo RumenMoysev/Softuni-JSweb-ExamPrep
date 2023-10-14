@@ -37,4 +37,5 @@ exports.validateAndCreate = (data) => {
     }
 }
 
-exports.getGamesLean = ()   => Game.find().lean()
+exports.getGamesLean = () => Game.find().lean()
+exports.findGameByIdLean = (id) => Game.findById(id).lean()

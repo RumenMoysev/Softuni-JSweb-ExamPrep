@@ -31,4 +31,16 @@ router.post('/create',async (req, res) => {
     }
 })
 
+router.get('/:gameId/details', async (req, res) => {
+    const gameId = req.params.gameId
+    const gameData = await gameManager.findGameByIdLean(gameId)
+    const userId = req.user?._id
+
+    const isOwner = userId == gameData.owner
+
+    //TODO BUYING LOGIC
+
+    res.render('gamesTemp/details', {isOwner, gameData})
+})
+
 module.exports = router
