@@ -36,3 +36,5 @@ exports.validateAndCreate = (data) => {
         throw new Error(err.message)
     }
 }
+
+exports.getGamesLean = ()   => Game.find().lean()

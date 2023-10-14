@@ -1,62 +1,28 @@
 <main id="catalog">
     <section class="game-market">
         <h1>Game Trade Code</h1>
+        {{#if games}}
         <div class="offer-list">
+            {{#each games}}
             <div class="game">
                 <div class="game-img">
-                    <img src="/images/witcher-3.jpg" />
+                    <img src="{{this.image}}" />
                 </div>
                 <div class="game-info">
-                    <h1>The Witcher 3</h1>
-                    <p><span>Platform: </span>PC</p>
-                    <p><span>Genre: </span>RPG</p>
-                    <p><span>Price: </span>$23</p>
+                    <h1>{{this.name}}</h1>
+                    <p><span>Platform: </span>{{this.platform}}</p>
+                    <p><span>Genre: </span>{{this.genre}}</p>
+                    <p><span>Price: </span>${{this.price}}</p>
                 </div>
 
-                <a href="#" class="btn-details">Details</a>
+                <a href="/games/{{this.owner}}/details" class="btn-details">Details</a>
             </div>
-            <div class="game">
-                <div class="game-img">
-                    <img src="/images/legacy.webp" />
-                </div>
-                <div class="game-info">
-                    <h1>Hogwarts Legacy</h1>
-                    <p><span>Platform: </span>XBOX</p>
-                    <p><span>Genre: </span>Action Role-Playing</p>
-                    <p><span>Price: </span>$55</p>
-                </div>
-
-                <a href="#" class="btn-details">Details</a>
-            </div>
-            <div class="game">
-                <div class="game-img">
-                    <img src="/images/disney-dreamlight-valley.jpg" />
-                </div>
-                <div class="game-info">
-                    <h1>Disney Dreamlight Valley</h1>
-                    <p><span>Platform: </span>PS5</p>
-                    <p><span>Genre: </span>Simulator</p>
-                    <p><span>Price: </span>$38</p>
-                </div>
-
-                <a href="#" class="btn-details">Details</a>
-            </div>
-            <div class="game">
-                <div class="game-img">
-                    <img src="/images/mortal-kombat.png" />
-                </div>
-                <div class="game-info">
-                    <h1>Mortal Kombat 11</h1>
-                    <p><span>Platform: </span>PC</p>
-                    <p><span>Genre: </span>Action</p>
-                    <p><span>Price: </span>$78</p>
-                </div>
-
-                <a href="#" class="btn-details">Details</a>
-            </div>
+            {{/each}}
         </div>
-        <!-- <div class="no-offer">
-                <p>There are no game offers found!</p>
-            </div> -->
+        {{else}}
+        <div class="no-offer">
+            <p>There are no game offers found!</p>
+        </div>
+        {{/if}}
     </section>
 </main>

@@ -2,8 +2,10 @@ const router = require('express').Router()
 
 const gameManager = require('../managers/gameManager.js')
 
-router.get('/catalog', (req, res) => {
-    res.render('gamesTemp/catalog')
+router.get('/catalog', async (req, res) => {
+    const games = await gameManager.getGamesLean()
+
+    res.render('gamesTemp/catalog', {games})
 })
 
 router.get('/create', (req, res) => {
