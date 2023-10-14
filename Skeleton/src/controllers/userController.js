@@ -1,6 +1,7 @@
 const router = require('express').Router()
 
-const userManager = require('../managers/userManager.js')
+const userManager = require('../managers/userManager.js');
+const routeGuard = require('../middlewares/routeGuard.js');
 
 router.get('/register', (req, res) => {
     res.render('userTemps/register')
@@ -44,7 +45,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get('/logout', (req, res) => {
+router.get('/logout', routeGuard, (req, res) => {
     res.clearCookie('auth')
     res.redirect('/')
 })
