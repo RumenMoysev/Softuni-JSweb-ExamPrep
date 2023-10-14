@@ -20,8 +20,9 @@ router.post('/register',async (req, res) => {
         const token = await userManager.validateAndRegister(userData, repeatPassword)
         res.cookie('auth', token)
         res.redirect('/')
-    } catch(err) {
-        console.log(err.message)
+    } catch(error) {
+        const err = error.message
+        res.render('userTemps/register', { err })
     }
 
 })
@@ -40,8 +41,9 @@ router.post('/login', async (req, res) => {
         const token = await userManager.validateAndLogin(userData)
         res.cookie('auth', token)
         res.redirect('/')
-    } catch (err) {
-        console.log(err)
+    } catch (error) {
+        const err = error.message
+        res.render('userTemps/login', {err})
     }
 });
 
