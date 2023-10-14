@@ -39,10 +39,15 @@ router.get('/:gameId/details', async (req, res) => {
     const userId = req.user?._id
 
     const isOwner = userId == gameData.owner
+    let isBought = false
+    
+    for(let el of gameData.boughtBy) {
+        if(el==userId) {
+            isBought = true
+        }
+    }
 
-    //TODO BUYING LOGIC
-
-    res.render('gamesTemp/details', {isOwner, gameData})
+    res.render('gamesTemp/details', { isOwner, gameData, isBought })
 })
 
 router.get('/:gameId/edit', async (req, res) => {
@@ -108,6 +113,11 @@ router.get('/search', async (req, res) => {
 
         res.render('search', {games, query, options})
     }
+})
+
+router.get('/:gameId/buy', async (req, res) => {
+    await gameManager.buyGame(req.params.gameId, req.user._id)
+    res.redirect(`/games/${req.params.gameId}/details`)
 })
 
 module.exports = router

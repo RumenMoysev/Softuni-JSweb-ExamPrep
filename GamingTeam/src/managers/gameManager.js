@@ -65,3 +65,13 @@ exports.findGamesByQuery = async (query) => {
     
     return foundGames
 }
+
+exports.buyGame = async (id, userId) => {
+    const games = await Game.findById(id)
+
+    if(!games.boughtBy.includes(userId)) {
+        games.boughtBy.push(userId)
+    }
+
+    return games.save()
+}
