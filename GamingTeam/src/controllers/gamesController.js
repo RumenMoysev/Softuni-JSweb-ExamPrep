@@ -1,5 +1,7 @@
 const router = require('express').Router()
 
+const gameManager = require('../managers/gameManager.js')
+
 router.get('/catalog', (req, res) => {
     res.render('gamesTemp/catalog')
 })
@@ -20,9 +22,10 @@ router.post('/create',async (req, res) => {
     }
 
     try {
-        await gameManager.validateAndCreate()
+        await gameManager.validateAndCreate(gameData)
+        res.redirect('/games/catalog')
     } catch (error) {
-        
+        console.log(error.message)
     }
 })
 
