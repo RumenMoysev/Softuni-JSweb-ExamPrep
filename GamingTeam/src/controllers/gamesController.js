@@ -73,7 +73,7 @@ router.post('/:gameId/edit', async (req, res) => {
 
     try {
         await gameManager.findValidateAndUpdate(gameId, gameData)
-        res.redirect('/games/catalog')
+        res.redirect(`/games/${gameId}/details`)
     } catch (error) {
         const err = error.message
         res.render('gamesTemp/edit', { gameData, err })
