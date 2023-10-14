@@ -50,3 +50,18 @@ exports.findValidateAndUpdate = async (gameId, newGameData) => {
 }
 
 exports.deleteGame = (gameId) => Game.findByIdAndDelete(gameId) 
+
+exports.findGamesByQuery = async (query) => {
+    let foundGames
+    if(query.platform) {
+        foundGames = await Game.find({ platform: query.platform }).lean()
+    } else {
+        foundGames = await Game.find().lean()
+    }
+    
+    if(query.search) {
+        foundGames = foundGames.filter((x) => x.name.toLowerCase().includes(query.search.toLowerCase()))
+    }
+    
+    return foundGames
+}

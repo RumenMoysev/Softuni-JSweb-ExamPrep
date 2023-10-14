@@ -93,4 +93,21 @@ router.get('/:gameId/delete', async (req, res) => {
     }
 })
 
+router.get('/search', async (req, res) => {
+    if(!req.query.search && !req.query.platform) {
+        res.render('search')
+    } else {
+        const query = {
+            ...req.query
+        }
+
+        const options = query.platform ? chosenOption(query.platform) : chosenOption()
+        
+        const games = await gameManager.findGamesByQuery(query)
+        
+
+        res.render('search', {games, query, options})
+    }
+})
+
 module.exports = router
