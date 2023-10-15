@@ -9,7 +9,8 @@ router.get('/register', (req, res) => {
 
 router.post('/register',async (req, res) => {
     const userData =  {
-        username: req.body.username,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         email: req.body.email,
         password: req.body.password
     }
@@ -22,6 +23,7 @@ router.post('/register',async (req, res) => {
         res.redirect('/')
     } catch(error) {
         const err = error.message
+        console.log(err)
         res.render('userTemps/register', { err })
     }
 

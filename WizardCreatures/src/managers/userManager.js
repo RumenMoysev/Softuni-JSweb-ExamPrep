@@ -3,13 +3,17 @@ const bcrypt = require('bcrypt')
 const jwt = require('../lib/jwtPromise.js')
 const SECRET = require('../configs/config.js')
 
-const usernameLength = 5
+const firstNameLength = 3
+const lastNameLength = 3
 const emailLength = 10
 const passwordLength = 4
 
 exports.validateAndRegister = async (userData, repeatPassword) => {
-    if (userData.username.length < usernameLength) {
-        throw new Error(`Username should be at least ${usernameLength} characters long`)
+    if (userData.firstName.length < firstNameLength) {
+        throw new Error(`First Name should be at least ${firstNameLength} characters long`)
+    }
+    if (userData.lastName.length < lastNameLength) {
+        throw new Error(`Last Name should be at least ${lastNameLength} characters long`)
     }
     if (userData.email.length < emailLength) {
         throw new Error(`Email should be at least ${emailLength} characters long`)
