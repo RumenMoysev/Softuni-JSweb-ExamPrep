@@ -45,3 +45,14 @@ exports.validateAndCreate = (data) => {
 exports.getCreatureByIdLean = (id) => Creature.findById(id).populate('owner').lean()
 
 exports.deleteCreatureById = (id) => Creature.findByIdAndDelete(id)
+
+exports.validateAndEditCreatureById = (id, data) => {
+    try {
+        validate(data)
+
+        return Creature.findByIdAndUpdate(id, data)
+    } catch (error) {
+        const errorMessage = error.message
+        throw new Error(errorMessage)
+    }
+}

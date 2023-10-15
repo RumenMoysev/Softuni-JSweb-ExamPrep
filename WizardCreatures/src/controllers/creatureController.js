@@ -64,6 +64,38 @@ router.get('/:creatureId/delete', async (req, res) => {
     }
 })
 
+router.get('/:creatureId/edit', async (req, res) => {
+    const creatureId = req.params.creatureId
+    try {
+        const creatureData = await creatureManager.getCreatureByIdLean(creatureId)
+        res.render('creatureTemps/edit', {creatureData})
+    } catch (error) {
+        const err = error.message
+        console.log(err)
+        res.redirect(`/creatures/${creatureId}/details`)
+    }
+})
 
+router.post('/:creatureId/edit', async (req, res) => {
+    const creatureId = req.params.creatureId
+
+    const creatureData = {
+        name: req.body.name,
+        species: req.body.species,
+        skinColor: req.body.skinColor,
+        eyeColor: req.body.eyeColor,
+        image: req.body.image,
+        description: req.body.description
+    }
+
+    try {
+        await creatureManager.validateAndEditCreatureById(creatureId, creatureData)
+        res.redirect(`/creatures/${creatureId}/details`)
+    } catch (error) {
+        const err = error.message
+        console.log(err)
+        res.redirect(`/creatures/${creatureId}/details`)
+    }
+})
 
 module.exports = router
