@@ -41,3 +41,7 @@ exports.validateAndCreate = (data) => {
         throw new Error(errorMessage)
     }
 }
+
+exports.getCreatureByIdLean = (id) => Creature.findById(id).populate('owner').lean()
+
+exports.deleteCreatureById = (id) => Creature.findByIdAndDelete(id)
