@@ -61,7 +61,7 @@ router.get('/:creatureId/details', async (req, res) => {
             }
         }
         
-        res.render('creatureTemps/details', { creatureData, isOwner, hasUserVoted, votedEmails, votes })
+        res.render('creatureTemps/details', { creatureData, isOwner, hasUserVoted, votedEmails, votes, hasVotes })
     } catch (error) {
         console.log(error.message)
         res.redirect('/creatures/posts')
@@ -70,30 +70,43 @@ router.get('/:creatureId/details', async (req, res) => {
 
 router.get('/:creatureId/delete', routeGuard, async (req, res) => {
     const creatureId = req.params.creatureId
+    const creatureData = await creatureManager.getCreatureByIdLean(creatureId)
+    const userId = req.user?._id
 
-    try {
-        await creatureManager.deleteCreatureById(creatureId)
-        res.redirect('/creatures/posts')
-    } catch (error) {
-        console.log(error.message)
-        res.redirect('creatures/posts')
+    if(isAuthorized(userId, creatureData.owner._id)) {
+        try {
+            await creatureManager.deleteCreatureById(creatureId)
+            res.redirect('/creatures/posts')
+        } catch (error) {
+            console.log(error.message)
+            res.redirect('/creatures/posts')
+        }
+    } else {
+        res.redirect(`/creatures/${creatureId}/details`)
     }
 })
 
 router.get('/:creatureId/edit', routeGuard, async (req, res) => {
     const creatureId = req.params.creatureId
-    try {
-        const creatureData = await creatureManager.getCreatureByIdLean(creatureId)
-        res.render('creatureTemps/edit', {creatureData})
-    } catch (error) {
-        const err = error.message
-        console.log(err)
+    const creatureData = await creatureManager.getCreatureByIdLean(creatureId)
+    const userId = req.user?._id
+
+    if (isAuthorized(userId, creatureData.owner._id)) {
+        try {
+            res.render('creatureTemps/edit', {creatureData})
+        } catch (error) {
+            const err = error.message
+            console.log(err)
+            res.redirect(`/creatures/${creatureId}/details`)
+        }
+    } else {
         res.redirect(`/creatures/${creatureId}/details`)
     }
 })
 
 router.post('/:creatureId/edit', routeGuard, async (req, res) => {
     const creatureId = req.params.creatureId
+    const userId = req.user?._id
 
     const creatureData = {
         name: req.body.name,
@@ -104,12 +117,18 @@ router.post('/:creatureId/edit', routeGuard, async (req, res) => {
         description: req.body.description
     }
 
-    try {
-        await creatureManager.validateAndEditCreatureById(creatureId, creatureData)
+    const creatureData1 = await creatureManager.getCreatureByIdLean(creatureId)
+
+    if (isAuthorized(userId, creatureData1.owner._id)) {
+        try {
+            await creatureManager.validateAndEditCreatureById(creatureId, creatureData)
+            res.redirect(`/creatures/${creatureId}/details`)
+        } catch (error) {
+            const err = error.message
+            res.render('creatureTemps/edit', { creatureData, err })
+        }
+    } else {
         res.redirect(`/creatures/${creatureId}/details`)
-    } catch (error) {
-        const err = error.message
-        res.render('creatureTemps/edit', {creatureData, err})
     }
 })
 
@@ -132,3 +151,7 @@ router.get('/:creatureId/vote', routeGuard, async (req, res) => {
 })
 
 module.exports = router
+
+function isAuthorized(userId, neededUserId) {
+    return userId == neededUserId
+}

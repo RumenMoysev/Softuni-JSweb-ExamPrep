@@ -50,7 +50,7 @@
                     </div>
                     <!-- If there are already people who have cast their vote for the post, separate their emails with a comma and a space ", " -->
                     
-                    {{#if votes}}
+                    {{#if hasVotes}}
                     <p class="disc">People who voted for the post - {{votedEmails}}</p>
 
                     {{else}}
