@@ -42,7 +42,7 @@ exports.validateAndCreate = (data) => {
     }
 }
 
-exports.getCreatureByIdLean = (id) => Creature.findById(id).populate('owner').lean()
+exports.getCreatureByIdLean = (id) => Creature.findById(id).populate('owner').populate('votes').lean()
 
 exports.deleteCreatureById = (id) => Creature.findByIdAndDelete(id)
 
@@ -56,3 +56,23 @@ exports.validateAndEditCreatureById = (id, data) => {
         throw new Error(errorMessage)
     }
 }
+
+exports.voteCreature = async (userId, creatureId) => {
+    const creatureData = await Creature.findById(creatureId)
+
+    if(!creatureData.votes.includes(userId)) {
+        creatureData.votes.push(userId)
+    } else {
+        throw new Error('You have already voted')
+    }
+
+    return creatureData.save()
+}
+
+exports.hasUserVoted = async (creatureId, userId) => {
+    const creatureData = await Creature.findById(creatureId)
+
+    return creatureData.votes.includes(userId)
+}
+
+exports.votes = async (creatureId) => Creature.findById(creatureId).populate('votes').lean()

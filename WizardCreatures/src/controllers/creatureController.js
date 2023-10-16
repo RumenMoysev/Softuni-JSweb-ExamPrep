@@ -39,15 +39,31 @@ router.post('/create', async (req, res) => {
 router.get('/:creatureId/details', async (req, res) => {
     const creatureId = req.params.creatureId
     const userId = req.user?._id
+    let hasVotes = false
+    let hasUserVoted = false
+    let votes = 0
+    let votedEmails = []
 
     try {
         const creatureData = await creatureManager.getCreatureByIdLean(creatureId)
-        const isOwner = creatureData.owner._id == userId
+        const isOwner = creatureData.owner._id == userId        
+        if(creatureData.votes.length > 0) {
+            hasVotes = true
+            votes = creatureData.votes.length
+            creatureData.votes.forEach(x => votedEmails.push(x.email))
+            votedEmails = votedEmails.join(', ')
 
-        //TODO: VOTING
-        res.render('creatureTemps/details', {creatureData, isOwner})
+            for(let el of creatureData.votes) {
+                if(el._id == userId) {
+                    hasUserVoted = true
+                }
+            }
+        }
+        
+        
+        res.render('creatureTemps/details', { creatureData, isOwner, hasUserVoted, votedEmails, votes })
     } catch (error) {
-        console.log(error.message)
+        console.log(error.message)/
         res.redirect('/creatures/posts')
     }
 })
@@ -91,6 +107,23 @@ router.post('/:creatureId/edit', async (req, res) => {
     try {
         await creatureManager.validateAndEditCreatureById(creatureId, creatureData)
         res.redirect(`/creatures/${creatureId}/details`)
+    } catch (error) {
+        const err = error.message
+        res.render('creatureTemps/edit', {creatureData, err})
+    }
+})
+
+router.get('/:creatureId/vote', async (req, res) => {
+    const creatureId = req.params.creatureId
+    const userId = req.user?._id
+
+    try {
+        if(userId) {
+            await creatureManager.voteCreature(userId, creatureId)
+            return res.redirect(`/creatures/${creatureId}/details`)
+        } else {
+            throw new Error('You need to be logged in to vote')
+        }
     } catch (error) {
         const err = error.message
         console.log(err)

@@ -28,6 +28,7 @@ const createSchema = new mongoose.Schema({
     votes: [
         {
             type: mongoose.Types.ObjectId,
+            ref: 'User'
         }
     ],
     owner: {
