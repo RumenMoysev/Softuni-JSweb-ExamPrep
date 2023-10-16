@@ -18,4 +18,4 @@ handlebarsConfigurator(app)
 
 app.use(router)
 
-app.listen(3000, console.log(`App is listening on port ${SERVER_PORT}`))
+app.listen(SERVER_PORT, console.log(`App is listening on port ${SERVER_PORT}`))
