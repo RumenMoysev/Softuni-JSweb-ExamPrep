@@ -1,6 +1,7 @@
 const router = require('express').Router()
 
 const creatureManager = require('../managers/creatureManager.js')
+const routeGuard = require('../middlewares/routeGuard.js')
 
 router.get('/posts', async (req, res) => {
     try {
@@ -12,11 +13,11 @@ router.get('/posts', async (req, res) => {
     }
 });
 
-router.get('/create', (req, res) => {
+router.get('/create', routeGuard, (req, res) => {
     res.render('creatureTemps/create')
 })
 
-router.post('/create', async (req, res) => {
+router.post('/create', routeGuard, async (req, res) => {
     const creatureData = {
         name: req.body.name,
         species: req.body.species,
@@ -60,15 +61,14 @@ router.get('/:creatureId/details', async (req, res) => {
             }
         }
         
-        
         res.render('creatureTemps/details', { creatureData, isOwner, hasUserVoted, votedEmails, votes })
     } catch (error) {
-        console.log(error.message)/
+        console.log(error.message)
         res.redirect('/creatures/posts')
     }
 })
 
-router.get('/:creatureId/delete', async (req, res) => {
+router.get('/:creatureId/delete', routeGuard, async (req, res) => {
     const creatureId = req.params.creatureId
 
     try {
@@ -80,7 +80,7 @@ router.get('/:creatureId/delete', async (req, res) => {
     }
 })
 
-router.get('/:creatureId/edit', async (req, res) => {
+router.get('/:creatureId/edit', routeGuard, async (req, res) => {
     const creatureId = req.params.creatureId
     try {
         const creatureData = await creatureManager.getCreatureByIdLean(creatureId)
@@ -92,7 +92,7 @@ router.get('/:creatureId/edit', async (req, res) => {
     }
 })
 
-router.post('/:creatureId/edit', async (req, res) => {
+router.post('/:creatureId/edit', routeGuard, async (req, res) => {
     const creatureId = req.params.creatureId
 
     const creatureData = {
@@ -113,7 +113,7 @@ router.post('/:creatureId/edit', async (req, res) => {
     }
 })
 
-router.get('/:creatureId/vote', async (req, res) => {
+router.get('/:creatureId/vote', routeGuard, async (req, res) => {
     const creatureId = req.params.creatureId
     const userId = req.user?._id
 
