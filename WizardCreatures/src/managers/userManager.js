@@ -55,4 +55,6 @@ exports.validateAndLogin = async (userData) => {
     }
 }
 
+exports.getUserData = (userId) => User.findById(userId).lean()
+
 function createJWTtoken(data, secret) {return jwt.sign(data, secret)}

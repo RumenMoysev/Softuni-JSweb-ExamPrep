@@ -1,0 +1,35 @@
+<main>
+    <section id="my-posts">
+        <h1>My post</h1>
+
+        <div class="my-container">
+            <!-- If there are own posts in the database display each of them -->
+            {{#each userPosts}}
+            <div class="my-card">
+                <div class="card-header">
+                    <img src="{{this.image}}" />
+                </div>
+                <div class="card-body">
+                    <span class="tag tag-teal">Species: {{this.species}}</span>
+                    <h4>
+                        Name: {{this.name}}
+                    </h4>
+                    <div class="user">
+                        <div class="user-info">
+                            <h5>Author: {{userData.firstName}} {{userData.lastName}}</h5>
+                            <small>Rating of votes: {{this.voteCount}}  </small>
+                            <a href="/creatures/{{this._id}}/details" class="details_btn">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{else}}
+
+            <div class="no-posts">
+                <p class="no-offer">There are no own posts yet...</p>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+
+</main>

@@ -76,3 +76,4 @@ exports.hasUserVoted = async (creatureId, userId) => {
 }
 
 exports.votes = async (creatureId) => Creature.findById(creatureId).populate('votes').lean()
+exports.getUserPosts = (userId) => Creature.find({owner: userId}).lean()
