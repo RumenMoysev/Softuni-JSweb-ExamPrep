@@ -34,11 +34,58 @@ router.post('/add', async (req, res) => {
     }
 })
 
-router.get('/:animaId/details', (req, res) => {
+router.get('/:animaId/details', async (req, res) => {
     const animalId = req.params.animaId
 
     try {
-        const animalDetails = animalManager.getAnimalByIdLean(animalId)
+        const animalDetails = await animalManager.getAnimalByIdLean(animalId)
+        const isOwner = req.user?._id == animalDetails.owner
+
+        res.render('animalTemps/details', {animalDetails, isOwner})
+    } catch (error) {
+        res.redirect('/404')
+    }
+})
+
+router.get('/:animalId/edit', async (req, res) => {
+    const animalId = req.params.animalId
+
+    try {
+        const animalDetails = await animalManager.getAnimalByIdLean(animalId)
+
+        res.render('animalTemps/edit', { animalDetails })
+    } catch (error) {
+        res.redirect('/404')
+    }
+})
+
+router.post('/:animalId/edit', async (req, res) => {
+    const animalId = req.params.animalId
+
+    const animalDetails = {
+        name: req.body.name,
+        years: Number(req.body.years),
+        kind: req.body.kind,
+        image: req.body.image,
+        need: req.body.need,
+        location: req.body.location,
+        description: req.body.description,
+        owner: req.user._id
+    }
+
+    try {
+        await animalManager.validateAndUpdate(animalDetails, animalId)
+
+        res.redirect(`/animals/${animalId}/details`)
+    } catch (error) {
+        const err = error.message
+        res.render('animalTemps/edit', { animalDetails, err })
+    }
+})
+
+router.get('/:animalId/detele', (req, res) => {
+    try {
+        
     } catch (error) {
         
     }

@@ -43,3 +43,23 @@ exports.validateAndCreate = (animalData) => {
         throw new Error(error.message)
     }
 }
+
+exports.getAnimalByIdLean = async (id) => {
+    const animal = await Animal.findById(id).lean()
+
+    if(animal) {
+        return animal
+    } else {
+        throw new Error('Animal does not exist')
+    }
+}
+
+exports.validateAndUpdate = (animalData, id) => {
+    try {
+        validate(animalData)
+
+        return Animal.findByIdAndUpdate(id, animalData)
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
