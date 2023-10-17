@@ -107,4 +107,21 @@ router.get('/:animalId/donate', async (req, res) => {
     }
 })
 
+router.get('/search', async (req, res) => {
+    const query = req.query
+    
+    if(!query.location) {
+        return res.render('animalTemps/search')
+    }
+
+    try {
+        const location = query.location
+
+        const foundAnimals = await animalManager.searchByLocation(location)
+        res.render('animalTemps/search', {foundAnimals, location})
+    } catch (error) {
+        res.redirect('/404')
+    }
+})
+
 module.exports = router

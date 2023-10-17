@@ -77,3 +77,10 @@ exports.donateForAnimal = async (animalId, userId) => {
     animal.donations.push(userId)
     return animal.save()
 }
+
+exports.searchByLocation = async (location) => {
+    const animals = await Animal.find().lean()
+
+    const foundAnimals = animals.filter(x => x.location.toLowerCase() === location.toLowerCase())
+    return foundAnimals
+}
