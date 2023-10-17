@@ -1,5 +1,4 @@
 <main class="details">
-    <!-- Details page -->
     <section id="details">
         <div id="details-wrapper">
             <p id="details-title">Name: Show</p>
@@ -30,7 +29,6 @@
                 <p>Description: <span id="details-description">{{animalDetails.description}}</span></p>
             </div>
 
-            <!--Edit and Delete are only for creator-->
             {{#if isAuthenticated}}
             <div id="action-buttons">
                 {{#if isOwner}}
