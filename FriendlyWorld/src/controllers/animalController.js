@@ -57,6 +57,10 @@ router.get('/:animalId/edit', async (req, res) => {
     try {
         const animalDetails = await animalManager.getAnimalByIdLean(animalId)
 
+        if(req.user._id != animalDetails.owner) {
+            throw new Error()
+        }
+
         res.render('animalTemps/edit', { animalDetails })
     } catch (error) {
         res.redirect('/404')
@@ -88,8 +92,16 @@ router.post('/:animalId/edit', async (req, res) => {
 })
 
 router.get('/:animalId/delete', async (req, res) => {
+    const animalId = req.params.animalId
+
     try {
-        await animalManager.deleteAnimal(req.params.animalId)
+        const animalData = await animalManager.getAnimalByIdLean(animalId)
+
+        if(req.user._id != animalData.owner) {
+            throw new Error()
+        }
+
+        await animalManager.deleteAnimal(animalId)
         res.redirect('/animals')
     } catch (error) {
         res.redirect('/404')
