@@ -47,7 +47,6 @@ router.get('/:animaId/details', async (req, res) => {
 
         res.render('animalTemps/details', {animalDetails, isOwner, hasDonated})
     } catch (error) {
-        console.log(error)
         res.redirect('/404')
     }
 })
