@@ -6,7 +6,7 @@ const isAuthenticated = require('../middlewares/isAuthenticated.js')
 function expressConfigurator(app) {
     app.use(cookieParser())
     app.use(express.static(path.resolve(__dirname, '../static')))
-    app.use(express.urlencoded({extended:true}))
+    app.use(express.urlencoded({ extended: false }))
     app.use(isAuthenticated)
 }
 
