@@ -63,3 +63,12 @@ exports.validateAndUpdate = (animalData, id) => {
         throw new Error(error.message)
     }
 }
+
+exports.deleteAnimal = (id) => {
+    try {
+        return Animal.findByIdAndDelete(id)
+    } catch (error) {
+        throw new Error('animal does not exist')
+    }
+    
+}

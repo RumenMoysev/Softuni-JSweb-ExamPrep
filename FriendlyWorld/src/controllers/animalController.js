@@ -83,11 +83,12 @@ router.post('/:animalId/edit', async (req, res) => {
     }
 })
 
-router.get('/:animalId/detele', (req, res) => {
+router.get('/:animalId/delete', async (req, res) => {
     try {
-        
+        await animalManager.deleteAnimal(req.params.animalId)
+        res.redirect('/animals')
     } catch (error) {
-        
+        res.redirect('/404')
     }
 })
 
