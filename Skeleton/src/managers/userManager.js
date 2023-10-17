@@ -24,7 +24,7 @@ exports.validateAndRegister = async (userData, repeatPassword) => {
     userData.password = await bcrypt.hash(userData.password, 10)
     await User.create(userData)
     const user = await User.findOne({ email: userData.email }).lean()
-    return await createJWTtoken(user, SECRET)
+    return createJWTtoken(user, SECRET)
 };
 
 exports.validateAndLogin = async (userData) => {
