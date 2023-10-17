@@ -58,7 +58,7 @@ router.get('/:animalId/edit', async (req, res) => {
         const animalDetails = await animalManager.getAnimalByIdLean(animalId)
 
         if(req.user._id != animalDetails.owner) {
-            throw new Error()
+            throw Error
         }
 
         res.render('animalTemps/edit', { animalDetails })
@@ -98,7 +98,7 @@ router.get('/:animalId/delete', async (req, res) => {
         const animalData = await animalManager.getAnimalByIdLean(animalId)
 
         if(req.user._id != animalData.owner) {
-            throw new Error()
+            throw Error
         }
 
         await animalManager.deleteAnimal(animalId)
