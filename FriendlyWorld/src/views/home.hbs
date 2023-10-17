@@ -9,9 +9,9 @@
     </section>
 
     <section id="last-added">
-        {{#each animals}}
+        {{#each animalArr}}
         <div>
-            <img src="{{this.imahe}}">
+            <img src="{{this.image}}">
             <p>Name: {{this.name}}</p>
             <p>Need of: {{this.need}}</p>
             <a class="details-btn" href="/animals/{{this._id}}/details">Details</a>

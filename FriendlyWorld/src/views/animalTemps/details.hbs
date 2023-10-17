@@ -34,11 +34,14 @@
             {{#if isAuthenticated}}
             <div id="action-buttons">
                 {{#if isOwner}}
-                <a href="/animals/{{animalDetails._id}}/edit" id="edit-btn">Edit</a>
-                <a href="/animals/{{animalDetails._id}}/delete" id="delete-btn">Delete</a>
+                    <a href="/animals/{{animalDetails._id}}/edit" id="edit-btn">Edit</a>
+                    <a href="/animals/{{animalDetails._id}}/delete" id="delete-btn">Delete</a>
                 {{else}}
-                <a href="#" id="donation-btn">Donation</a>
-                <p id="already-donated">You already donated!</p>
+                {{#if hasDonated}}
+                    <p id="already-donated">You already donated!</p>
+                {{else}}
+                    <a href="/animals/{{animalDetails._id}}/donate" id="donation-btn">Donation</a>
+                {{/if}}
                 {{/if}}
             </div>
             {{/if}}

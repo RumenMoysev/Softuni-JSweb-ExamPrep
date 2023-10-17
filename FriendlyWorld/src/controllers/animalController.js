@@ -40,9 +40,14 @@ router.get('/:animaId/details', async (req, res) => {
     try {
         const animalDetails = await animalManager.getAnimalByIdLean(animalId)
         const isOwner = req.user?._id == animalDetails.owner
+        let hasDonated = false
+        if(req.user) {
+            animalDetails.donations.forEach((x) => hasDonated = x == req.user._id)
+        }
 
-        res.render('animalTemps/details', {animalDetails, isOwner})
+        res.render('animalTemps/details', {animalDetails, isOwner, hasDonated})
     } catch (error) {
+        console.log(error)
         res.redirect('/404')
     }
 })
@@ -87,6 +92,16 @@ router.get('/:animalId/delete', async (req, res) => {
     try {
         await animalManager.deleteAnimal(req.params.animalId)
         res.redirect('/animals')
+    } catch (error) {
+        res.redirect('/404')
+    }
+})
+
+router.get('/:animalId/donate', async (req, res) => {
+    const animalId = req.params.animalId
+    try {
+        await animalManager.donateForAnimal(animalId, req.user._id)
+        res.redirect(`/animals/${animalId}/details`)
     } catch (error) {
         res.redirect('/404')
     }

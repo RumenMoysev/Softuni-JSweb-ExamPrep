@@ -70,5 +70,10 @@ exports.deleteAnimal = (id) => {
     } catch (error) {
         throw new Error('animal does not exist')
     }
-    
+}
+
+exports.donateForAnimal = async (animalId, userId) => {
+    const animal = await Animal.findById(animalId)
+    animal.donations.push(userId)
+    return animal.save()
 }
