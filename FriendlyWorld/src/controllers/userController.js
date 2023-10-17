@@ -2,12 +2,14 @@ const router = require('express').Router()
 
 const userManager = require('../managers/userManager.js')
 const routeGuard = require('../middlewares/routeGuard.js')
+const loggedInRouteGuard = require('../middlewares/loggedInRouteGuard.js')
 
-router.get('/register', (req, res) => {
+router.get('/register', loggedInRouteGuard, (req, res) => {
+    console.log('thisWorks')
     res.render('userTemps/register')
 })
 
-router.post('/register', async (req, res) => {
+router.post('/register', loggedInRouteGuard, async (req, res) => {
     const userData = {
         email: req.body.email,
         password: req.body.password
@@ -25,7 +27,7 @@ router.post('/register', async (req, res) => {
     }
 })
 
-router.get('/login', (req, res) => {
+router.get('/login', loggedInRouteGuard, (req, res) => {
     res.render('userTemps/login')
 })
 
