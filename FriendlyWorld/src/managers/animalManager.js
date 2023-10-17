@@ -74,7 +74,9 @@ exports.deleteAnimal = (id) => {
 
 exports.donateForAnimal = async (animalId, userId) => {
     const animal = await Animal.findById(animalId)
-    animal.donations.push(userId)
+    if(!animal.donations.includes(userId)) {
+        animal.donations.push(userId)
+    }
     return animal.save()
 }
 
