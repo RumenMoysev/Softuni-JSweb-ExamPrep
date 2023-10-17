@@ -34,7 +34,7 @@ const animalSchema = new mongoose.Schema({
             type: mongoose.Types.ObjectId
         }
     ],
-    onwer: {
+    owner: {
         type: mongoose.Types.ObjectId,
         required: true,
         ref: 'User'
