@@ -27,7 +27,8 @@ function validate(petData) {
 }
 
 exports.getPetsLean = () => Pet.find().lean().populate('owner')
-exports.getPetDataLean = (id) => Pet.findById(id).populate('owner').populate('commentList').lean()
+exports.getPetDataLean = (id) => Pet.findById(id).lean()
+exports.getPetDataLeanWithPopulation = (id) => Pet.findById(id).populate('owner').populate('commentList').lean()
 
 exports.validateAndCreate = (petData) => {
     petData.age = Number(petData.age)
@@ -39,3 +40,15 @@ exports.validateAndCreate = (petData) => {
         throw new Error(error.message)
     }
 }
+
+exports.validateAndUpdate = (id, data) => {
+    try {
+        validate(data)
+
+        return Pet.findByIdAndUpdate(id, data)
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+
+exports.deletePet = (id) => Pet.findByIdAndDelete(id)

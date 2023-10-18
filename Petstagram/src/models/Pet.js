@@ -23,7 +23,7 @@ const petSchema = new mongoose.Schema({
     },
     commentList: [
         {
-            userId: {
+            user: {
                 type: mongoose.Types.ObjectId,
                 ref: 'User'
             },

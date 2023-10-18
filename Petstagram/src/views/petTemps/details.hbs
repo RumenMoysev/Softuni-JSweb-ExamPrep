@@ -26,9 +26,11 @@
                             <span>{{petData.location}}</span>
 
                             <!-- IF the viewer is the creator of the photo -->
+                            {{#if isOwner}}
                             <div class="edit-delete-btns">
 
                                 <!-- Edit Pet Photo -->
+                                
                                 <a href="/pets/{{petData._id}}/edit">
                                     <img class="edit-img" src="/images/edit-pen-icon-6.jpg" alt="edit button">
                                 </a>
@@ -38,7 +40,7 @@
                                     <img class="bin-img" src="/images/icon-remove-22.jpg" alt="bin button">
                                 </a>
                             </div>
-
+                            {{/if}}
                         </h3>
                     </div>
 
@@ -52,67 +54,42 @@
 
 
                 <div class="bottom">
-
                     <p class="message">
                         <b class="petDescription">{{petData.description}}</b>
                     </p>
 
-
-                    <!-- Photo description -->
                     <div class="pet-details">
                         <p class="petName">Name: {{petData.name}}</p>
                         <p class="petAge">Age: {{petData.age}}</p>
                     </div>
+
+                    {{#if petData.commentList}}
                     <div class="comments">
                         <div class="comments-top">
+                            {{#each petData.commentList}}
                             <div class="userDetails">
                                 <div class="comment-data">
                                     <div class="profilepic">
                                         <div class="profile_img">
                                             <div class="image">
                                                 <!-- User Profile Image -->
-                                                <img src="/static/images/person.png" alt="img8">
+                                                <img src="/images/person.png" alt="img8">
                                             </div>
                                         </div>
                                     </div>
 
                                     <!--User's username-->
-                                    <p><b>StevIvanov</b>- OMG where can i get one</p>
+                                    <p><b>{{petData.commentList.user.username}}</b>{{petData.commentList.comment}}</p>
                                 </div>
                             </div>
-                            <div class="userDetails">
-                                <div class="comment-data">
-                                    <div class="profilepic">
-                                        <div class="profile_img">
-                                            <div class="image">
-                                                <!-- User Profile Image -->
-                                                <img src="/static/images/person.png" alt="img8">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--User's username-->
-                                    <p><b>StevIvanov</b>- OMG where can i get one</p>
-                                </div>
-                            </div>
-                            <div class="userDetails">
-                                <div class="comment-data">
-                                    <div class="profilepic">
-                                        <div class="profile_img">
-                                            <div class="image">
-                                                <!-- User Profile Image -->
-                                                <img src="/static/images/person.png" alt="img8">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--User's username-->
-                                    <p><b>StevIvanov</b>- OMG where can i get one</p>
-                                </div>
-                            </div>
+                            {{/each}}
                         </div>
+                        
                     </div>
+                    {{/if}}
                 </div>
+                {{#if isAuthenticated}}
+                {{#if notOwner}}
                 <div class="addComments">
                     <!-- Start Add Comments Form -->
                     <form method="#" action="#">
@@ -122,6 +99,8 @@
                         <button type="submit">Post</button>
                     </form>
                 </div>
+                {{/if}}
+                {{/if}}
             </div>
         </div>
     </div>
