@@ -59,6 +59,7 @@ exports.validateAndLogin = async (userData) => {
         } else {
             throw new Error('Email or password do not match!')
         }
+        
     } catch (error) {
         throw new Error(error.message)
     }
