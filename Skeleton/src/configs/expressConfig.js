@@ -6,7 +6,7 @@ const {isAuth} = require('../middlewares/authMiddleware.js')
 function expressConfigurator(app) {
     app.use(express.static(path.resolve(__dirname, '../static')))
     app.use(cookieParser())
-    app.use(express.urlencoded({extended: true}))
+    app.use(express.urlencoded({extended: false}))
     app.use(isAuth)
 }
 
