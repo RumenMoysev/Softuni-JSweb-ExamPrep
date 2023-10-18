@@ -4,8 +4,7 @@ const petManager = require('../managers/petManager.js')
 
 router.get('/catalog', async (req, res) => {
     const pets = await petManager.getPetsLean()
-    console.log(pets)
-    res.render('petTemps/catalog', {pets})
+    res.render('petTemps/catalog', { pets })
 })
 
 router.get('/add', (req, res) => {
@@ -27,7 +26,19 @@ router.post('/add', async (req, res) => {
         res.redirect('/pets/catalog')
     } catch (error) {
         const err = error.message
-        res.render('petTemps/create', {petData, err})
+        res.render('petTemps/create', { petData, err })
+    }
+})
+
+router.get('/:petId/details', async (req, res) => {
+    const petId = req.params.petId
+
+    try {
+        const petData = await petManager.getPetDataLean(petId)
+
+        res.render('petTemps/details', { petData })
+    } catch (error) {
+
     }
 })
 

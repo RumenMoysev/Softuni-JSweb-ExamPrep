@@ -18,6 +18,7 @@ router.post('/register', loggedInRouteGuard, async (req, res) => {
     const repeatPassword = req.body.rePassword
 
     try {
+        //CHECK IF CREATING RETURNS THE USER
         const token = await userManager.validateAndRegister(userData, repeatPassword)
         res.cookie('auth', token)
         res.redirect('/')
@@ -25,7 +26,6 @@ router.post('/register', loggedInRouteGuard, async (req, res) => {
         const err = error.message
         res.render('userTemps/register', { err })
     }
-
 })
 
 router.get('/login', loggedInRouteGuard, (req, res) => {
