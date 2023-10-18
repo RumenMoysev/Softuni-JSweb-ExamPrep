@@ -3,19 +3,19 @@ const bcrypt = require('bcrypt')
 const jwt = require('../lib/jwtPromise.js')
 const SECRET = require('../configs/config.js')
 
-const usernameLength = 5
+const usernameLength = 2
 const emailLength = 10
 const passwordLength = 4
 
 function validate(userData, rePassword) {
-    if(userData.username) {
-        if (userData.username.length < usernameLength) {
-            throw new Error(`Username should be at least ${usernameLength} characters long.`)
+    if(userData.email) {
+        if (userData.username.length < emailLength) {
+            throw new Error(`Email should be at least ${emailLength} characters long.`)
         }
     }
 
-    if (userData.email.length < emailLength) {
-        throw new Error(`Email should be at least ${emailLength} characters long.`)
+    if (userData.username.length < usernameLength) {
+        throw new Error(`Username should be at least ${usernameLength} characters long.`)
     }
     if (userData.password.length < passwordLength) {
         throw new Error(`Password should be at least ${passwordLength} characters long.`)
@@ -46,11 +46,11 @@ exports.validateAndLogin = async (userData) => {
     try {
         validate(userData)
 
-        const user = await User.findOne({ email: userData.email }).lean()
+        const user = await User.findOne({ username: userData.username }).lean()
 
         if (user) {
             const isValid = await bcrypt.compare(userData.password, user.password)
-
+            
             if (!isValid) {
                 throw new Error('Email or password do not match!')
             }

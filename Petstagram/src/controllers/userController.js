@@ -34,7 +34,7 @@ router.get('/login', loggedInRouteGuard, (req, res) => {
 
 router.post('/login', async (req, res) => {
     const userData = {
-        email: req.body.email,
+        username: req.body.username,
         password: req.body.password
     }
 
