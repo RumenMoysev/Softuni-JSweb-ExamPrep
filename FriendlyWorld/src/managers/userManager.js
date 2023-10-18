@@ -41,9 +41,19 @@ exports.validateRegisterAndLogin = async (userData, rePassword) => {
 exports.validateAndLogin = async (userData) => {
     try {
         validate(userData)
-        const payload = await User.findOne({email: userData.email}).lean()
+        const user = await User.findOne({email: userData.email}).lean()
 
-        return jwt.sign(payload, SECRET)        
+        if(!user) {
+            throw new Error('User does not exist')
+        }
+
+        const isValid = await bcrypt.compare(userData.password, user.password)
+
+        if(!isValid) {
+            throw new Error('Wrong email or password.')
+        }
+
+        return jwt.sign(user, SECRET)        
     } catch (error) {
         throwError(error.message)
     }
