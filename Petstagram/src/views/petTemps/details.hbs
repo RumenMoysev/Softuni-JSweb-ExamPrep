@@ -79,7 +79,7 @@
                                     </div>
 
                                     <!--User's username-->
-                                    <p><b>{{petData.commentList.user.username}}</b>{{petData.commentList.comment}}</p>
+                                    <p><b>{{this.user.username}} </b>{{this.comment}}</p>
                                 </div>
                             </div>
                             {{/each}}
@@ -92,8 +92,8 @@
                 {{#if notOwner}}
                 <div class="addComments">
                     <!-- Start Add Comments Form -->
-                    <form method="#" action="#">
-                        <textarea id="comment-textarea" name="" cols="40" rows="10"
+                    <form method="POST">
+                        <textarea id="comment-textarea" name="comment" cols="40" rows="10"
                             placeholder="Add comment..."></textarea>
                         <!-- Post Comments Button -->
                         <button type="submit">Post</button>

@@ -44,6 +44,35 @@ router.get('/:petId/details', async (req, res) => {
     }
 })
 
+router.post('/:petId/details', async (req, res) => {
+    const petId = req.params.petId
+    const comment = req.body.comment
+
+    try {
+        if (!res.locals.isAuthenticated) {
+            throw new Error('You need to be logged in to post a comment')
+        }
+        if(comment.length < 0) {
+            throw new Error('Comment should be at least 1 character long')
+        }
+
+        const userId = req.user._id
+        
+        await petManager.addCommentAndGetData(userId, comment, petId)
+
+        res.redirect(`/pets/${petId}/details`)
+    } catch (error) {
+        const petData = await petManager.getPetDataLeanWithPopulation(petId)
+
+        const isOwner = req.user?._id == petData.owner._id
+        const notOwner = req.user?._id != petData.owner._id
+
+        const err = error.message
+
+        res.render('petTemps/details', { petData, isOwner, notOwner, err })
+    }
+})
+
 router.get('/:petId/edit', async (req, res) => {
     const petId = req.params.petId
 
@@ -90,7 +119,7 @@ router.get('/:petId/delete', async (req, res) => {
         if(!isOwner) {
             throw Error
         }
-        
+
         await petManager.deletePet(petId)
         res.redirect(`/pets/catalog`)
     } catch (error) {
