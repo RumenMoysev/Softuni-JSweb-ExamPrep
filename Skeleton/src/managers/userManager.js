@@ -8,7 +8,7 @@ const emailLength = 10
 const passwordLength = 4
 
 function validate(userData, rePassword) {
-    if(userData.username) {
+    if (userData.username) {
         if (userData.username.length < usernameLength) {
             throw new Error(`Username should be at least ${usernameLength} characters long.`)
         }
@@ -21,7 +21,7 @@ function validate(userData, rePassword) {
         throw new Error(`Password should be at least ${passwordLength} characters long.`)
     }
 
-    if(rePassword) {
+    if (rePassword) {
         if (rePassword !== userData.password) {
             throw new Error('Passwords do not match')
         }
@@ -59,7 +59,7 @@ exports.validateAndLogin = async (userData) => {
         } else {
             throw new Error('Email or password do not match!')
         }
-        
+
     } catch (error) {
         throw new Error(error.message)
     }
