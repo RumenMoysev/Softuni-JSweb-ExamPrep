@@ -29,6 +29,7 @@ function validate(petData) {
 exports.getPetsLean = () => Pet.find().lean().populate('owner')
 exports.getPetDataLean = (id) => Pet.findById(id).lean()
 exports.getPetDataLeanWithPopulation = (id) => Pet.findById(id).populate('owner').populate('commentList.user').lean()
+exports.getPetsByUserIdLean = (userId) => Pet.find({owner: userId}).lean()
 
 exports.validateAndCreate = (petData) => {
     petData.age = Number(petData.age)

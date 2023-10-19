@@ -3,6 +3,7 @@ const router = require('express').Router()
 const userManager = require('../managers/userManager.js');
 const routeGuard = require('../middlewares/routeGuard.js');
 const loggedInRouteGuard = require('../middlewares/loggedInRouteGuard.js')
+const petManager = require('../managers/petManager.js')
 
 router.get('/register', loggedInRouteGuard, (req, res) => {
     res.render('userTemps/register')
@@ -51,6 +52,19 @@ router.post('/login', async (req, res) => {
 router.get('/logout', routeGuard, (req, res) => {
     res.clearCookie('auth')
     res.redirect('/')
+})
+
+router.get('/:userId/profile', async (req, res) => {
+    const userId = req.params.userId
+
+    try {
+        const userData = await userManager.getUserDataLean(userId)
+        const userPosts = await petManager.getPetsByUserIdLean(userId)
+
+        res.render('userTemps/profile', {userData, userPosts})
+    } catch (error) {
+        
+    }
 })
 
 module.exports = router
