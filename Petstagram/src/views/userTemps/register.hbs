@@ -5,13 +5,13 @@
 
             <!-- Start Register Form -->
             <form method="POST">
-                <input type="text" name="username" placeholder="Username" />
+                <input type="text" name="username" placeholder="Username" value="{{userData.username}}"/>
 
-                <input type="email" name="email" placeholder="Email" />
+                <input type="email" name="email" placeholder="Email" value="{{userData.email}}"/>
 
-                <input type="password" name="password" placeholder="Password" />
+                <input type="password" name="password" placeholder="Password" value="{{userData.password}}"/>
 
-                <input type="password" name="rePassword" placeholder="Repeat Password" />
+                <input type="password" name="rePassword" placeholder="Repeat Password" value="{{repeatPassword}}"/>
 
                 <!-- Register Button -->
                 <button type="submit">Register</button>
