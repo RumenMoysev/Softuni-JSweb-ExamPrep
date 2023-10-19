@@ -9,21 +9,21 @@ router.get('/register', loggedInRouteGuard, (req, res) => {
 });
 
 router.post('/register', loggedInRouteGuard, async (req, res) => {
-    const userData =  {
+    const userData = {
         username: req.body.username,
         email: req.body.email,
         password: req.body.password
     }
-    
+
     const repeatPassword = req.body.rePassword
 
     try {
         const token = await userManager.validateAndRegister(userData, repeatPassword)
         res.cookie('auth', token)
         res.redirect('/')
-    } catch(error) {
+    } catch (error) {
         const err = error.message
-        res.render('userTemps/register', { err })
+        res.render('userTemps/register', { err, userData, repeatPassword })
     }
 
 })
@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
         res.redirect('/')
     } catch (error) {
         const err = error.message
-        res.render('userTemps/login', {err})
+        res.render('userTemps/login', { err, userData })
     }
 });
 
