@@ -45,6 +45,7 @@ exports.validateAndCreate = (petData) => {
 exports.validateAndUpdate = (id, data) => {
     try {
         validate(data)
+        console.log(data)
 
         return Pet.findByIdAndUpdate(id, data)
     } catch (error) {

@@ -54,7 +54,7 @@ router.get('/logout', routeGuard, (req, res) => {
     res.redirect('/')
 })
 
-router.get('/:userId/profile', async (req, res) => {
+router.get('/:userId/profile', routeGuard, async (req, res) => {
     const userId = req.params.userId
 
     try {

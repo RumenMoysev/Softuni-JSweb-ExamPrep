@@ -1,17 +1,18 @@
 const router = require('express').Router()
 
 const petManager = require('../managers/petManager.js')
+const routeGuard = require('../middlewares/routeGuard.js')
 
 router.get('/catalog', async (req, res) => {
     const pets = await petManager.getPetsLean()
     res.render('petTemps/catalog', { pets })
 })
 
-router.get('/add', (req, res) => {
+router.get('/add', routeGuard, (req, res) => {
     res.render('petTemps/create')
 })
 
-router.post('/add', async (req, res) => {
+router.post('/add', routeGuard, async (req, res) => {
     const petData = {
         name: req.body.name,
         image: req.body.image,
@@ -73,7 +74,7 @@ router.post('/:petId/details', async (req, res) => {
     }
 })
 
-router.get('/:petId/edit', async (req, res) => {
+router.get('/:petId/edit', routeGuard, async (req, res) => {
     const petId = req.params.petId
 
     try {
@@ -89,7 +90,7 @@ router.get('/:petId/edit', async (req, res) => {
     }
 })
 
-router.post('/:petId/edit', async (req,res) => {
+router.post('/:petId/edit', routeGuard, async (req,res) => {
     const petId = req.params.petId
 
     const petData = {
@@ -101,6 +102,12 @@ router.post('/:petId/edit', async (req,res) => {
     }
 
     try {
+        const petData1 = await petManager.getPetDataLean(petId)
+        const isOwner = req.user?._id == petData1.owner._id
+        if (!isOwner) {
+            res.redirect('/404')
+        }
+
         await petManager.validateAndUpdate(petId, petData)
         res.redirect(`/pets/${petId}/details`)
     } catch (error) {
@@ -109,7 +116,7 @@ router.post('/:petId/edit', async (req,res) => {
     }
 })
 
-router.get('/:petId/delete', async (req, res) => {
+router.get('/:petId/delete', routeGuard, async (req, res) => {
     const petId = req.params.petId
 
     try {
