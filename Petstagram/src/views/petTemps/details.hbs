@@ -10,7 +10,9 @@
                             <div class="profilepic">
                                 <div class="profile_img">
                                     <div class="image">
+                                        <a href="/users/{{petData.owner._id}}/profile">
                                         <img src="/images/person.png" alt="img8">
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -20,7 +22,9 @@
                             <!-- Link to User Profile Details Page -->
                             <p>
                                 <!-- User's username -->
+                                <a href="/users/{{petData.owner._id}}/profile">
                                 {{petData.owner.username}}
+                                </a>
                             </p>
                             <!-- photo's location -->
                             <span>{{petData.location}}</span>
@@ -70,14 +74,15 @@
                                     <div class="profilepic">
                                         <div class="profile_img">
                                             <div class="image">
-                                                <!-- User Profile Image -->
+                                                <a href="/users/{{this.user._id}}/profile">
                                                 <img src="/images/person.png" alt="img8">
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!--User's username-->
-                                    <p><b>{{this.user.username}} </b>{{this.comment}}</p>
+                                    <p><a href="/users/{{this.user._id}}/profile"><b>{{this.user.username}}</a> </b>{{this.comment}}</p>
                                 </div>
                             </div>
                             {{/each}}

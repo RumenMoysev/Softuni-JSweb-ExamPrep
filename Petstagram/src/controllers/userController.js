@@ -63,7 +63,7 @@ router.get('/:userId/profile', async (req, res) => {
 
         res.render('userTemps/profile', {userData, userPosts})
     } catch (error) {
-        
+        res.redirect('/404')
     }
 })
 

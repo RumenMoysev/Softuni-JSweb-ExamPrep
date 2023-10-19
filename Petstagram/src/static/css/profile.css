@@ -179,3 +179,7 @@
 .step-links a:hover {
     text-shadow: none;
 }
+
+.card a {
+    text-decoration: none;
+}
