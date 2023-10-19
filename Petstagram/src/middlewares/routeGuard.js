@@ -1,5 +1,5 @@
 function routeGuard(req, res, next) {
-    req.user ? next() : res.render('userTemps/login')
+    req.user ? next() : res.redirect('/404')
 }
 
 module.exports = routeGuard
