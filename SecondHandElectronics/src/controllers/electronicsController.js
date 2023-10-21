@@ -59,13 +59,16 @@ router.get('/:electronicId/details', async (req, res) => {
     }
 })
 
-router.get('/:electronicId/buy', async (req, res) => {
+router.get('/:electronicId/buy', routeGuard, async (req, res) => {
     const electronicId = req.params.electronicId
 
     try {
-        if(!req.user._id) {
+        const electronicData = await electronicsManager.findByIdLean(electronicId)
+
+        if (req.user._id == electronicData.owner) {
             throw Error
         }
+
         await electronicsManager.buyElectronic(electronicId, req.user._id)
         res.redirect(`/electronics/${electronicId}/details`)
     } catch (error) {
@@ -124,6 +127,10 @@ router.get('/:electronicId/delete', routeGuard, async (req, res) => {
     try {
         const electronicData = await electronicsManager.findByIdLean(electronicId)
         
+        if (req.user._id != electronicData.owner) {
+            throw Error
+        }
+
         await electronicsManager.deleteElectronicById(electronicId)
         res.redirect('/electronics/catalog')
     } catch (error) {
