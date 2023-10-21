@@ -15,7 +15,7 @@ router.post('/register', loggedInRouteGuard, async (req, res) => {
         password: req.body.password
     }
 
-    const password = JSON.stringify(JSON.parse(userData.password))
+    const password = JSON.parse(JSON.stringify(userData.password))
 
     const repeatPassword = req.body.rePassword
     
@@ -35,13 +35,13 @@ router.get('/login', loggedInRouteGuard, (req, res) => {
     res.render('userTemps/login')
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', loggedInRouteGuard, async (req, res) => {
     const userData = {
         email: req.body.email,
         password: req.body.password
     }
 
-    const password = JSON.stringify(JSON.parse(userData.password))
+    const password = JSON.parse(JSON.stringify(userData.password))
 
     try {
         const token = await userManager.validateAndLogin(userData)

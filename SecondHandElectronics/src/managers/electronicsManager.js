@@ -24,11 +24,11 @@ function validate(data) {
     if(!data.image.startsWith('http://') && !data.image.startsWith('https://')) {
         throw new Error('Please provide a valid image Url!')
     }
-    if(data.description.length < descriptionLength[0] || data.description.length > descriptionLength[1]){
-        throw new Error(`Description should be betwenn ${descriptionLength[0]} and ${descriptionLength[1]} characters long!`)
-    }
     if (isNaN(Number(data.price)) || Number(data.price) <= 0) {
         throw new Error('Price should be a positive number')
+    }
+    if(data.description.length < descriptionLength[0] || data.description.length > descriptionLength[1]){
+        throw new Error(`Description should be betwenn ${descriptionLength[0]} and ${descriptionLength[1]} characters long!`)
     }
 }
 
