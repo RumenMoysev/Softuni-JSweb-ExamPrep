@@ -25,11 +25,11 @@
             <ul>
                 <!--For all users-->
                 <li><a href="/">Home</a></li>
-                <li><a href="#">Catalog</a></li>
+                <li><a href="/electronics/catalog">Catalog</a></li>
                 <!--For loggin users-->
                 {{#if isAuthenticated}}
-                <li><a href="#">Create Offer</a></li>
-                <li><a href="#">Search</a></li>
+                <li><a href="/electronics/create">Create Offer</a></li>
+                <li><a href="/electronics/search">Search</a></li>
                 <li><a href="/users/logout">Logout</a></li>
                 <!--For guest user-->
                 {{else}}
