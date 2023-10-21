@@ -1,6 +1,7 @@
 const router = require('express').Router()
 
 const electronicsManager = require('../managers/electronicsManager.js')
+const routeGuard = require('../middlewares/routeGuard.js')
 
 router.get('/catalog', async (req, res) => {
     try {
@@ -13,23 +14,22 @@ router.get('/catalog', async (req, res) => {
 })
 
 
-router.get('/create', async (req, res) => {
+router.get('/create', routeGuard, async (req, res) => {
     res.render('electronicTemps/create')
 })
 
-router.post('/create', async (req, res) => {
+router.post('/create', routeGuard, async (req, res) => {
     const electronicData = {
         name: req.body.name,
         type: req.body.type,
         damages: req.body.damages,
         image: req.body.image,
         description: req.body.description,
-        production: Number(req.body.production),
-        exploitation: Number(req.body.exploitation),
-        price: Number(req.body.price),
+        production: req.body.production,
+        exploitation: req.body.exploitation,
+        price: req.body.price,
         owner: req.user._id
     }
-    //fix numbers being saved strangely
 
     try {
         await electronicsManager.validateAndCreate(electronicData)
@@ -63,6 +63,9 @@ router.get('/:electronicId/buy', async (req, res) => {
     const electronicId = req.params.electronicId
 
     try {
+        if(!req.user._id) {
+            throw Error
+        }
         await electronicsManager.buyElectronic(electronicId, req.user._id)
         res.redirect(`/electronics/${electronicId}/details`)
     } catch (error) {
@@ -70,11 +73,15 @@ router.get('/:electronicId/buy', async (req, res) => {
     }
 })
 
-router.get('/:electronicId/edit', async (req, res) => {
+router.get('/:electronicId/edit', routeGuard, async (req, res) => {
     const electronicId = req.params.electronicId
 
     try {
         const electronicData = await electronicsManager.findByIdLean(electronicId)
+
+        if (req.user._id != electronicData.owner) {
+            throw Error
+        }
 
         res.render('electronicTemps/edit', { electronicData })
     } catch (error) {
@@ -82,7 +89,7 @@ router.get('/:electronicId/edit', async (req, res) => {
     }   
 })
 
-router.post('/:electronicId/edit', async (req, res) => {
+router.post('/:electronicId/edit', routeGuard, async (req, res) => {
     const electronicId = req.params.electronicId
 
     const electronicData = {
@@ -91,12 +98,18 @@ router.post('/:electronicId/edit', async (req, res) => {
         damages: req.body.damages,
         image: req.body.image,
         description: req.body.description,
-        production: Number(req.body.production),
-        exploitation: Number(req.body.exploitation),
-        price: Number(req.body.price),
+        production: req.body.production,
+        exploitation: req.body.exploitation,
+        price: req.body.price,
     }
 
     try {
+        const electronicData1 = await electronicsManager.findByIdLean(electronicId)
+
+        if(req.user._id != electronicData1.owner) {
+            res.redirect('/404')
+        }
+
         await electronicsManager.validateAndUpdate(electronicId, electronicData)
         res.redirect(`/electronics/${electronicId}/details`)
     } catch (error) {
@@ -105,7 +118,7 @@ router.post('/:electronicId/edit', async (req, res) => {
     }
 })
 
-router.get('/:electronicId/delete', async (req, res) => {
+router.get('/:electronicId/delete', routeGuard, async (req, res) => {
     const electronicId = req.params.electronicId
 
     try {
@@ -118,7 +131,7 @@ router.get('/:electronicId/delete', async (req, res) => {
     }
 })
 
-router.get('/search', async (req, res) => {
+router.get('/search', routeGuard, async (req, res) => {
     const name = req.query.name
     const type = req.query.type
 

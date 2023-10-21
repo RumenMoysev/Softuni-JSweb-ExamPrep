@@ -12,10 +12,10 @@ function validate(data) {
     if(data.type.length < typeLength) {
         throw new Error(`Type should be at least ${typeLength} characters long!`)
     }
-    if (isNaN(data.production) || Number(data.production) < 1900 || Number(data.production) > 2023) {
+    if (isNaN(Number(data.production)) || Number(data.production) < 1900 || Number(data.production) > 2023) {
         throw new Error('Production should be between the year 1900 and 2023')
     }
-    if (isNaN(data.exploitation) || Number(data.exploitation) <= 0) {
+    if (isNaN(Number(data.exploitation)) || Number(data.exploitation) <= 0) {
         throw new Error('Exploitation should be a positive number')
     }
     if(data.damages.length < damagesLength) {
@@ -27,7 +27,7 @@ function validate(data) {
     if(data.description.length < descriptionLength[0] || data.description.length > descriptionLength[1]){
         throw new Error(`Description should be betwenn ${descriptionLength[0]} and ${descriptionLength[1]} characters long!`)
     }
-    if (isNaN(data.price) || Number(data.price) <= 0) {
+    if (isNaN(Number(data.price)) || Number(data.price) <= 0) {
         throw new Error('Price should be a positive number')
     }
 }
