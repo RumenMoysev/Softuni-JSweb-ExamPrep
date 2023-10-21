@@ -33,6 +33,7 @@ function validate(data) {
 }
 
 exports.getElectronicsLean = () => Electronic.find().lean()
+exports.findByIdLean = (id) => Electronic.findById(id).lean()
 
 exports.validateAndCreate = (electronicData) => {
     try {

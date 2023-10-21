@@ -1,30 +1,32 @@
 <section id="detailsPage">
     <div id="detailsInfo">
-        <h1>Name: Laptop HP EliteBook 820 G4</h1>
-        <div class="info"><img src="./image/laptop.webp"></div>
+        <h1>{{electronicData.name}}</h1>
+        <div class="info"><img src="{{electronicData.image}}"></div>
 
         <div class="info">
-            <h3>Type: Laptop</h3>
-            <h3>Year of Production: 2008</h3>
-            <h3>Years of Exploitation: 12</h3>
-            <h3>Damages: The product has minimal signs of use, not affecting its functionality.</h3>
-            <h3>Description: Intel Core i5-7200U (3M, 2.50 GHz, up to 3.10 GHz), 8GB DDR4, 256GB SSD, Intel HD Graphics
-                620, 12.5 inches (31.75 cm), 1366x768 HD</h3>
-            <h2>Price: $153</h2>
+            <h3>Type: {{electronicData.type}}</h3>
+            <h3>Year of Production: {{electronicData.production}}</h3>
+            <h3>Years of Exploitation: {{electronicData.exploitation}}</h3>
+            <h3>Damages: {{electronicData.damages}}</h3>
+            <h3>Description: {{electronicData.description}}</h3>
+            <h2>Price: ${{electronicData.price}}</h2>
         </div>
 
         <!--If there is user logged in-->
+        {{#if isAuthenticated}}
         <div class="buttons">
-
-            <!--If user is not owner of the toy post-->
-            <a href="#" class="buy-btn">Buy</a>
-
-            <!--If user is owner-->
-            <a href="#" class="edit-btn">Edit</a>
-            <a href="#" class="delete-btn">Delete</a>
-
-            <!--If user is not the owner and is bought this toy-->
-            <p><span class="buy">Thank You For Your Purchase</span></p>
+            {{#if isOwner}}
+            <a href="/electronics/{{electronicData._id}}/edit" class="edit-btn">Edit</a>
+            <a href="/electronics/{{electronicData._id}}/delete" class="delete-btn">Delete</a>
+            {{else}}
+                {{#if hasBought}}
+                <p><span class="buy">Thank You For Your Purchase</span></p>
+                {{else}}
+                <!--If user is not owner of the toy post-->
+                <a href="/electronics/{{electronicData._id}}/buy" class="buy-btn">Buy</a>
+                {{/if}}
+            {{/if}}
         </div>
+        {{/if}}
     </div>
 </section>

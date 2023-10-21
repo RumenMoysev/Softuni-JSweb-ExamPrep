@@ -40,6 +40,18 @@ router.post('/create', async (req, res) => {
     }
 })
 
+router.get('/:electronicId/details', async (req, res) => {
+    const electronicId = req.params.electronicId
 
+    try {
+        const electronicData = await electronicsManager.findByIdLean(electronicId)
+        const isOwner = req.user?._id == electronicData?.owner
+        const hasBought = electronicData.buyingList.includes(req.user?._id)
+
+        res.render('electronicTemps/details', {electronicData, isOwner, hasBought})
+    } catch (error) {
+        res.redirect('/404')
+    }
+})
 
 module.exports = router
