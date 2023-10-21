@@ -35,8 +35,7 @@ const electronicSchema = new mongoose.Schema({
     },
     buyingList: [
         {
-            type: mongoose.Types.ObjectId,
-            ref: 'User'
+            type: mongoose.Types.ObjectId
         }
     ],
     owner: {
