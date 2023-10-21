@@ -3,10 +3,10 @@
     {{#if electronics}}
     <div class="added-electronics">
         {{#each electronics}}
-        <a href="#" class="added-electronics-in-market">
-            <img src="./image/laptop.webp" class="picture-added-electronics">
-            <h3>Laptop HP EliteBook 820 G4</h3>
-            <span>Price: $153</span>
+        <a href="/electronics/{{this._id}}/details" class="added-electronics-in-market">
+            <img src="{{this.image}}" class="picture-added-electronics">
+            <h3>{{this.name}}</h3>
+            <span>Price: ${{this.price}}</span>
         </a>
         {{/each}}
     </div>
