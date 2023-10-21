@@ -1,25 +1,29 @@
 <section class="search">
     <h1>Search</h1>
 
-    <form class="search-form" action="#" method="">
-        <input type="text" class="search-name" name="" placeholder="Search Name...">
-        <input type="text" class="search-type" name="" placeholder="Search Type...">
+    <form class="search-form" method="GET">
+        <input type="text" class="search-name" name="name" placeholder="Search Name..." value="{{name}}">
+        <input type="text" class="search-type" name="type" placeholder="Search Type..." value="{{type}}">
         <button type="submit" class="btn-search">Search</button>
     </form>
 
     <!--If there are matches after search-->
+    {{#if electornics}}
     <div class="search-result">
         <div class="search-list">
-            <a href="#" class="added-electronics-in-market">
-                <img src="./image/tablet.webp" class="picture-added-electronics">
-                <h3>Tablet Apple iPad Air 16GB</h3>
-                <span>Price: $92</span>
+            {{#each electornics}}
+            <a href="/electronics/{{this._id}}/details" class="added-electronics-in-market">
+                <img src="{{this.image}}" class="picture-added-electronics">
+                <h3>{{this.name}}</h3>
+                <span>Price: ${{this.price}}</span>
             </a>
+            {{/each}}
         </div>
-
     </div>
+    {{else}}
     <!--If there are no matches-->
-    <!-- <div class="no-match">
-                <p>No match was found!</p>
-            </div> -->
+    <div class="no-match">
+        <p>No match was found!</p>
+    </div>
+    {{/if}}
 </section>

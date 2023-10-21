@@ -64,9 +64,22 @@ exports.buyElectronic = async (electornicId, userId) => {
         if (!electronicData.buyingList.includes(userId)) {
             electronicData.buyingList.push(userId)
         }
-        
+
         electronicData.save()
     } catch (error) {
         throw new Error(error)
     }
+}
+
+exports.findByNameOrType = async (name, type) => {
+    let electornics = await Electronic.find().lean()
+
+    if(name) {
+        electornics = electornics.filter((x) => x.name.toLowerCase().includes(name.toLowerCase()))
+    }
+    if(type) {
+        electornics = electornics.filter((x) => x.type.toLowerCase().includes(type.toLowerCase()))
+    }
+
+    return electornics
 }

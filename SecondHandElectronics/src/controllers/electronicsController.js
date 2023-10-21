@@ -118,4 +118,17 @@ router.get('/:electronicId/delete', async (req, res) => {
     }
 })
 
+router.get('/search', async (req, res) => {
+    const name = req.query.name
+    const type = req.query.type
+
+    if(name || type) {
+        const electornics = await electronicsManager.findByNameOrType(name, type)
+        res.render('electronicTemps/search', { name, type, electornics })
+    } else {
+        const electornics = await electronicsManager.getElectronicsLean()
+        res.render('electronicTemps/search', { electornics })
+    }
+})
+
 module.exports = router
