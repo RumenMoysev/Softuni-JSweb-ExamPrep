@@ -39,7 +39,8 @@ const electronicSchema = new mongoose.Schema({
         }
     ],
     owner: {
-        type: mongoose.Types.ObjectId
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
     }
 })
 
