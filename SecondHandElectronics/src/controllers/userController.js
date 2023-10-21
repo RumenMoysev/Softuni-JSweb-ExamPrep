@@ -23,6 +23,8 @@ router.post('/register', loggedInRouteGuard, async (req, res) => {
         res.redirect('/')
     } catch (error) {
         const err = error.message
+        console.log(userData)
+        //fix wrong passwordSave
         res.render('userTemps/register', { err, userData, repeatPassword })
     }
 

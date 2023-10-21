@@ -54,3 +54,19 @@ exports.validateAndUpdate = (id, electronicData) => {
         throw new Error(error.message)
     }
 }
+
+exports.deleteElectronicById = (id) => Electronic.findByIdAndDelete(id)
+
+exports.buyElectronic = async (electornicId, userId) => {
+    try {
+        const electronicData = await Electronic.findById(electornicId)
+
+        if (!electronicData.buyingList.includes(userId)) {
+            electronicData.buyingList.push(userId)
+        }
+        
+        electronicData.save()
+    } catch (error) {
+        throw new Error(error)
+    }
+}

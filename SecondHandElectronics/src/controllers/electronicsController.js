@@ -29,7 +29,7 @@ router.post('/create', async (req, res) => {
         price: Number(req.body.price),
         owner: req.user._id
     }
-    //make numbers being saved strangely
+    //fix numbers being saved strangely
 
     try {
         await electronicsManager.validateAndCreate(electronicData)
@@ -46,9 +46,25 @@ router.get('/:electronicId/details', async (req, res) => {
     try {
         const electronicData = await electronicsManager.findByIdLean(electronicId)
         const isOwner = req.user?._id == electronicData?.owner
-        const hasBought = electronicData.buyingList.includes(req.user?._id)
+        let hasBought = false
+        for(let el of electronicData.buyingList) {
+            if(el == req.user?._id) {
+                hasBought = true
+            }
+        }
 
         res.render('electronicTemps/details', {electronicData, isOwner, hasBought})
+    } catch (error) {
+        res.redirect('/404')
+    }
+})
+
+router.get('/:electronicId/buy', async (req, res) => {
+    const electronicId = req.params.electronicId
+
+    try {
+        await electronicsManager.buyElectronic(electronicId, req.user._id)
+        res.redirect(`/electronics/${electronicId}/details`)
     } catch (error) {
         res.redirect('/404')
     }
@@ -86,6 +102,19 @@ router.post('/:electronicId/edit', async (req, res) => {
     } catch (error) {
         const err = error.message
         res.render('electronicTemps/edit', {electronicData, err})
+    }
+})
+
+router.get('/:electronicId/delete', async (req, res) => {
+    const electronicId = req.params.electronicId
+
+    try {
+        const electronicData = await electronicsManager.findByIdLean(electronicId)
+        
+        await electronicsManager.deleteElectronicById(electronicId)
+        res.redirect('/electronics/catalog')
+    } catch (error) {
+        res.redirect('/404')
     }
 })
 
