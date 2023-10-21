@@ -1,28 +1,28 @@
 <section id="createPage">
-    <form id='createForm' action="#" method="">
+    <form id='createForm' method="POST">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="" placeholder="Name...">
+        <input type="text" id="name" name="name" placeholder="Name..." value="{{electronicData.name}}">
 
         <label for="type">Type:</label>
-        <input type="text" id="type" name="" placeholder="Type...">
+        <input type="text" id="type" name="type" placeholder="Type..." value="{{electronicData.type}}">
 
         <label for="production">Year of Production:</label>
-        <input type="number" id="production" name="" placeholder="Year of Production...">
+        <input type="number" id="production" name="production" placeholder="Year of Production..." value="{{electronicData.production}}">
 
         <label for="exploitation">Years of Exploitation:</label>
-        <input type="number" id="exploitation" name="" placeholder="Year of Exploitation...">
+        <input type="number" id="exploitation" name="exploitation" placeholder="Year of Exploitation..." value="{{electronicData.exploitation}}">
 
         <label for="damages">Damages:</label>
-        <input type="text" id="damages" name="" placeholder="Damages...">
+        <input type="text" id="damages" name="damages" placeholder="Damages..." value="{{electronicData.damages}}">
 
         <label for="image">Image:</label>
-        <input type="text" id="image" name="" placeholder="Image...">
+        <input type="text" id="image" name="image" placeholder="Image..." value="{{electronicData.image}}">
 
         <label for="price">Price:</label>
-        <input type="number" id="price" name="" placeholder="Price...">
+        <input type="number" id="price" name="price" placeholder="Price..." value="{{electronicData.price}}">
 
         <label for="description">Description:</label>
-        <input type="text" id="description" name="" placeholder="Description...">
+        <input type="text" id="description" name="description" placeholder="Description..." value="{{electronicData.description}}">
 
         <input type="submit" class="create" value="Create Offer">
     </form>

@@ -21,7 +21,7 @@ const electronicSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    product: {
+    production: {
         type: Number,
         required: true
     },
