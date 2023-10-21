@@ -44,3 +44,13 @@ exports.validateAndCreate = (electronicData) => {
         throw new Error(error.message)
     }
 }
+
+exports.validateAndUpdate = (id, electronicData) => {
+    try {
+        validate(electronicData)
+
+        return Electronic.findByIdAndUpdate(id, electronicData)
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}

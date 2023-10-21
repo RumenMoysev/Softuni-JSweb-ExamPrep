@@ -54,4 +54,39 @@ router.get('/:electronicId/details', async (req, res) => {
     }
 })
 
+router.get('/:electronicId/edit', async (req, res) => {
+    const electronicId = req.params.electronicId
+
+    try {
+        const electronicData = await electronicsManager.findByIdLean(electronicId)
+
+        res.render('electronicTemps/edit', { electronicData })
+    } catch (error) {
+        res.redirect('/404')
+    }   
+})
+
+router.post('/:electronicId/edit', async (req, res) => {
+    const electronicId = req.params.electronicId
+
+    const electronicData = {
+        name: req.body.name,
+        type: req.body.type,
+        damages: req.body.damages,
+        image: req.body.image,
+        description: req.body.description,
+        production: Number(req.body.production),
+        exploitation: Number(req.body.exploitation),
+        price: Number(req.body.price),
+    }
+
+    try {
+        await electronicsManager.validateAndUpdate(electronicId, electronicData)
+        res.redirect(`/electronics/${electronicId}/details`)
+    } catch (error) {
+        const err = error.message
+        res.render('electronicTemps/edit', {electronicData, err})
+    }
+})
+
 module.exports = router
