@@ -8,7 +8,7 @@ router.use(homeController)
 router.use('/users', usersController)
 router.use('/electronics', electronicsController)
 router.use('*', (req, res) => {
-    res.redirect('404')
+    res.redirect('/404')
 })
 
 module.exports = router
