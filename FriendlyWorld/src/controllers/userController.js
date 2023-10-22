@@ -15,6 +15,8 @@ router.post('/register', loggedInRouteGuard, async (req, res) => {
         password: req.body.password
     }
 
+    const password = JSON.parse(JSON.stringify(userData.password))
+
     const rePassword = req.body.rePassword
 
     try {
@@ -23,6 +25,7 @@ router.post('/register', loggedInRouteGuard, async (req, res) => {
         res.redirect('/')
     } catch (error) {
         const err = error.message
+        userData.password = password
         res.render('userTemps/register', {userData, rePassword, err})
     }
 })
@@ -37,6 +40,8 @@ router.post('/login', async (req, res) => {
         password: req.body.password
     }
 
+    const password = JSON.parse(JSON.stringify(userData.password))
+
     try {
         const token = await userManager.validateAndLogin(userData)
         res.cookie('auth', token)
@@ -44,6 +49,7 @@ router.post('/login', async (req, res) => {
         res.redirect('/')
     } catch (error) {
         const err = error.message
+        userData.password = password
         res.render('userTemps/login', { userData, err })
     }
 })
